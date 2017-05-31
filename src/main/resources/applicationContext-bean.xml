@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="empDao" class="com.ultra.ssh.dao.impl.EmpDaoImpl">
+		<!-- 这里只能通过子类注入sessionFactory,不能在父类注入后在子类中直接调用(继承的是类,不是对象) -->
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="departDao" class="com.ultra.ssh.dao.impl.DepartDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<bean id="empService" class="com.ultra.ssh.service.impl.EmpServiceImpl">
+		<property name="empDao" ref="empDao"></property>
+	</bean>
+
+	<bean id="departService" class="com.ultra.ssh.service.impl.DepartServiceImpl">
+		<property name="departDao" ref="departDao"></property>
+	</bean>
+
+	<bean id="empAction" class="com.ultra.ssh.action.EmpAction" scope="prototype">
+		<property name="empService" ref="empService"></property>
+	</bean>
+
+</beans>
